@@ -1,0 +1,24 @@
+{
+  "short_name": "detailez_short_name",
+  "name": "detailez",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "logo.png"
+  },
+  "icons": {
+    "16": "logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["./static/js/content.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "./static/js/background.js"
+  },
+  "devtools_page": "index.html",
+  "permissions": ["activeTab", "tabs", "tabCapture", "downloads"]
+}
