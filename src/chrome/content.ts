@@ -21,13 +21,7 @@ async function getPresignedUrl({ id }: { id: number }): Promise<any> {
   return undefined;
 }
 
-function screenshot({ tcId }: { tcId: number | string }) {
-  // let abc = document.createElement("div");
-  // abc.innerHTML = "완료되었습니다!";
-  // abc.style.cssText =
-  //   "backgroundColor:pink;position:fixed;bottom:-100px;left:2%;transition:all 0.5s;padding:10px 50px";
-  // document.body.appendChild(abc);
-
+function onToast() {
   // toast msg
   let tostMessage = document.createElement("div");
   tostMessage.innerHTML = "완료되었습니다!";
@@ -51,6 +45,16 @@ function screenshot({ tcId }: { tcId: number | string }) {
       tostMessage.style.bottom = "-100px";
     }, 1000);
   }
+
+  tostOn();
+}
+
+function screenshot({ tcId }: { tcId: number | string }) {
+  // let abc = document.createElement("div");
+  // abc.innerHTML = "완료되었습니다!";
+  // abc.style.cssText =
+  //   "backgroundColor:pink;position:fixed;bottom:-100px;left:2%;transition:all 0.5s;padding:10px 50px";
+  // document.body.appendChild(abc);
 
   let startX = 0;
   let startY = 0;
@@ -113,7 +117,7 @@ function screenshot({ tcId }: { tcId: number | string }) {
       });
       if (!!imgData && !!imgData.formInput)
         presignedUpload(values, imgData.formInput);
-      tostOn();
+      onToast();
 
       console.log("done");
     } catch (error) {
@@ -196,6 +200,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       });
     });
     sendResponse({ message: "success" });
+    onToast();
   } else if (request.message === "screenshotSection") {
     screenshot({ tcId: request.tcId });
   }

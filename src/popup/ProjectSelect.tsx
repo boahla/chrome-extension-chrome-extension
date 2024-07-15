@@ -24,8 +24,9 @@ const ProjectSelect = ({
         },
       });
       setLists(data.data);
+      setTcId(!!data.data ? data.data[0].id : 0);
     } catch (error) {}
-  }, []);
+  }, [setTcId]);
 
   useEffect(() => {
     load();
@@ -37,13 +38,13 @@ const ProjectSelect = ({
 
       {!!lists.length ? (
         <Select
-          name="languages"
-          id="lang"
+          name="tc"
           value={tcId}
           onChange={(e) => {
             setTcId(e.target.value);
           }}
         >
+          <option>새 프로젝트 생성하기</option>
           {lists.map((item) => (
             <option value={item.id}>{item.name}</option>
           ))}
