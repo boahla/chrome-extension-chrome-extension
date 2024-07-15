@@ -54,12 +54,14 @@ const Screenshot = ({ tcId }: { tcId: number | string }) => {
         <FullCaptureButton
           className="section-screenshot-button"
           onClick={onClickSecionScreenshot}
+          disabled={!tcId}
         >
           선택 영역 스크린샷
         </FullCaptureButton>
         <FullCaptureButton
           className="full-screenshot-button"
           onClick={onClickFullScreenshot}
+          disabled={!tcId}
         >
           전체 화면 스크린샷
         </FullCaptureButton>
@@ -100,36 +102,10 @@ const FullCaptureButton = styled.button`
   border: none;
   width: 100%;
   cursor: pointer;
+  &:disabled {
+    cursor: initial;
+    background-color: #7a7a86;
+  }
 `;
 
 export default Screenshot;
-
-// const onClickFullScreenshot = () => {
-// chrome.tabCapture.capture({fullscreen: true,})
-
-// chrome.tabCapture.getMediaStreamId({}, (streamId: string) => {
-//   console.log("streamId", { streamId });
-// });
-
-// chrome.tabCapture.capture(
-//   {
-//     video: true,
-//     videoConstraints: {
-//       mandatory: { chromeMediaSource: "tab" },
-//     },
-//   },
-//   (stream) => {
-//     console.log("tabcapture", stream);
-//   }
-// );
-
-// chrome.tabs.captureVisibleTab({ format: "jpeg" }, (base64Data: any) => {
-//   setImageObjcet(base64Data);
-// });
-
-// navigator.
-// };
-
-// chrome.tabCapture.onStatusChanged.addListener((info) => {
-//   console.log({ info });
-// });

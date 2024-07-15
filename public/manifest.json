@@ -20,5 +20,5 @@
     "service_worker": "./static/js/background.js"
   },
   "devtools_page": "index.html",
-  "permissions": ["activeTab", "tabs", "tabCapture", "downloads"]
+  "permissions": ["tabs", "tabCapture"]
 }

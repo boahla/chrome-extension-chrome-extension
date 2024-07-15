@@ -22,7 +22,36 @@ async function getPresignedUrl({ id }: { id: number }): Promise<any> {
 }
 
 function screenshot({ tcId }: { tcId: number | string }) {
-  console.log("screenshot", { tcId });
+  // let abc = document.createElement("div");
+  // abc.innerHTML = "완료되었습니다!";
+  // abc.style.cssText =
+  //   "backgroundColor:pink;position:fixed;bottom:-100px;left:2%;transition:all 0.5s;padding:10px 50px";
+  // document.body.appendChild(abc);
+
+  // toast msg
+  let tostMessage = document.createElement("div");
+  tostMessage.innerHTML = "완료되었습니다!";
+  tostMessage.style.backgroundColor = "pink";
+  tostMessage.style.position = "fixed";
+  tostMessage.style.bottom = "-100px";
+  tostMessage.style.left = "2%";
+  tostMessage.style.transition = "all 0.5s;";
+  tostMessage.style.padding = "10px 50px";
+  tostMessage.style.borderRadius = "5px";
+  tostMessage.style.backgroundColor = "rgba(0, 0, 0, 0.70)";
+  tostMessage.style.color = "#fff";
+  tostMessage.style.boxShadow = "3px 4px 11px 0px #00000040";
+
+  document.body.appendChild(tostMessage);
+
+  // toast message function
+  function tostOn() {
+    tostMessage.style.bottom = "30px";
+    setTimeout(function () {
+      tostMessage.style.bottom = "-100px";
+    }, 1000);
+  }
+
   let startX = 0;
   let startY = 0;
   let height = window.innerHeight;
@@ -57,31 +86,6 @@ function screenshot({ tcId }: { tcId: number | string }) {
 
   var selectArea = false;
 
-  //마우스 누르는 이벤트 함수
-  const mouseDown = function (e: any) {
-    selectArea = true;
-    e.preventDefault();
-    startX = e.clientX;
-    startY = e.clientY;
-    console.log("mousedown", startX, startY);
-    document.body.removeEventListener("mousedown", mouseDown);
-  };
-
-  function mouseMove(e: any) {
-    let x = e.clientX;
-    let y = e.clientY;
-    screenShot.style.left = x;
-    screenShot.style.top = y;
-    if (selectArea) {
-      let top = Math.min(y, startY);
-      let right = width - Math.max(x, startX);
-      let bottom = height - Math.max(y, startY);
-      var left = Math.min(x, startX);
-      screenBg.style.borderWidth = `${top}px ${right}px ${bottom}px ${left}px`;
-      console.log("screenBg", screenBg.style.borderWidth);
-    }
-  }
-
   async function presignedUpload(file: any, preData: any) {
     try {
       const url = "https://dev-detaiez.s3.ap-northeast-2.amazonaws.com";
@@ -107,27 +111,37 @@ function screenshot({ tcId }: { tcId: number | string }) {
       const imgData = await getPresignedUrl({
         id: Number(tcId),
       });
-      console.log({ imgData });
       if (!!imgData && !!imgData.formInput)
         presignedUpload(values, imgData.formInput);
+      tostOn();
 
       console.log("done");
-      // await Promise.all(
-      //   values.map(async (cur: any) => {
-      //     const imgData = await getPresignedUrl({
-      //       id: Number(tcId),
-      //     });
-      //     if (!!imgData && !!imgData.formInput)
-      //       presignedUpload(cur, imgData.formInput);
-      //   })
-      // ).then(() => {
-      //   console.log("done");
-      //   // handleCloseDialog("upload");
-      //   // load();
-      // });
-      // setLists(data.data);
     } catch (error) {
       console.log({ error });
+    }
+  }
+
+  const mouseDown = function (e: any) {
+    selectArea = true;
+    e.preventDefault();
+    startX = e.clientX;
+    startY = e.clientY;
+    console.log("mousedown", startX, startY);
+    document.body.removeEventListener("mousedown", mouseDown);
+  };
+
+  function mouseMove(e: any) {
+    let x = e.clientX;
+    let y = e.clientY;
+    screenShot.style.left = x;
+    screenShot.style.top = y;
+    if (selectArea) {
+      let top = Math.min(y, startY);
+      let right = width - Math.max(x, startX);
+      let bottom = height - Math.max(y, startY);
+      var left = Math.min(x, startX);
+      screenBg.style.borderWidth = `${top}px ${right}px ${bottom}px ${left}px`;
+      console.log("screenBg", screenBg.style.borderWidth);
     }
   }
 
@@ -162,6 +176,8 @@ function screenshot({ tcId }: { tcId: number | string }) {
     document.body.removeEventListener("mouseup", mouseUp);
     document.body.classList.remove("edit_cursor");
   }
+
+  //events
   document.body.addEventListener("mousedown", mouseDown);
   document.body.addEventListener("mousemove", mouseMove);
   document.body.addEventListener("mouseup", mouseUp);

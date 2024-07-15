@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const ProjectSelect = ({
   tcId,
@@ -34,18 +34,27 @@ const ProjectSelect = ({
   return (
     <Root>
       <TitleTypograph>프로젝트 이동</TitleTypograph>
-      <Select
-        name="languages"
-        id="lang"
-        value={tcId}
-        onChange={(e) => {
-          setTcId(e.target.value);
-        }}
-      >
-        {lists.map((item) => (
-          <option value={item.id}>{item.name}</option>
-        ))}
-      </Select>
+
+      {!!lists.length ? (
+        <Select
+          name="languages"
+          id="lang"
+          value={tcId}
+          onChange={(e) => {
+            setTcId(e.target.value);
+          }}
+        >
+          {lists.map((item) => (
+            <option value={item.id}>{item.name}</option>
+          ))}
+        </Select>
+      ) : (
+        <section>
+          <ProgressBar>
+            <ProgressBarGauage></ProgressBarGauage>
+          </ProgressBar>
+        </section>
+      )}
     </Root>
   );
 };
@@ -72,4 +81,42 @@ const Select = styled.select`
   border-radius: 6px;
   background-color: #f2f3f7;
   border-color: #e2e3ec;
+`;
+
+const ProgressBar = styled.div`
+  position: relative;
+  width: 100%;
+  height: 12px;
+  border-radius: 100px;
+  background-color: rgba(167, 167, 167);
+  overflow: hidden;
+`;
+
+const loading = keyframes`
+0% {
+width: 0;
+opacity:1;
+}
+80% {
+width:100%;
+opacity: 1;
+}
+100% {
+width: 100%;
+opacity:0;
+}
+`;
+
+const ProgressBarGauage = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 12px;
+  border-radius: 100px;
+  background-color: #5e6296;
+  animation-name: ${loading};
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
 `;
