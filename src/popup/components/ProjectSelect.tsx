@@ -24,9 +24,9 @@ const ProjectSelect = ({
         },
       });
       setLists(data.data);
-      setTcId(!!data.data ? data.data[0].id : 0);
+      // setTcId(!!data.data ? data.data[0].id : 0);
     } catch (error) {}
-  }, [setTcId]);
+  }, []);
 
   useEffect(() => {
     load();
@@ -35,7 +35,6 @@ const ProjectSelect = ({
   return (
     <Root>
       <TitleTypograph>프로젝트 이동</TitleTypograph>
-
       {!!lists.length ? (
         <Select
           name="tc"
@@ -44,17 +43,22 @@ const ProjectSelect = ({
             setTcId(e.target.value);
           }}
         >
-          <option>새 프로젝트 생성하기</option>
+          <option value="0" hidden selected>
+            이동할 프로젝트를 선택해 주세요.
+          </option>
+          <option value="new">새 프로젝트 생성하기</option>
           {lists.map((item) => (
             <option value={item.id}>{item.name}</option>
           ))}
         </Select>
       ) : (
-        <section>
-          <ProgressBar>
-            <ProgressBarGauage></ProgressBarGauage>
-          </ProgressBar>
-        </section>
+        <SelectDiv>
+          <ProgressSection>
+            <ProgressBar>
+              <ProgressBarGauage></ProgressBarGauage>
+            </ProgressBar>
+          </ProgressSection>
+        </SelectDiv>
       )}
     </Root>
   );
@@ -62,7 +66,6 @@ const ProjectSelect = ({
 export default ProjectSelect;
 
 const Root = styled.div`
-  border-top: 1px solid #e2e3ec;
   padding: 12px 12px 20px 12px;
 `;
 
@@ -84,6 +87,13 @@ const Select = styled.select`
   border-color: #e2e3ec;
 `;
 
+const SelectDiv = styled.div`
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const ProgressBar = styled.div`
   position: relative;
   width: 100%;
@@ -91,6 +101,10 @@ const ProgressBar = styled.div`
   border-radius: 100px;
   background-color: rgba(167, 167, 167);
   overflow: hidden;
+`;
+
+const ProgressSection = styled.section`
+  width: 100%;
 `;
 
 const loading = keyframes`

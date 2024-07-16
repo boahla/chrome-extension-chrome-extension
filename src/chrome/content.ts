@@ -131,6 +131,8 @@ function screenshot({ tcId }: { tcId: number | string }) {
     startX = e.clientX;
     startY = e.clientY;
     console.log("mousedown", startX, startY);
+
+    document.body.style.cursor = "crosshair";
     document.body.removeEventListener("mousedown", mouseDown);
   };
 
@@ -165,6 +167,7 @@ function screenshot({ tcId }: { tcId: number | string }) {
     let width = Math.max(x, startX) - left;
     let height = Math.max(y, startY) - top;
     console.log("mouseup", x, y, startX, startY, left, top, width, height);
+    document.body.style.cursor = "auto";
 
     html2canvas(document.body).then(function (canvas) {
       //@ts-ignore

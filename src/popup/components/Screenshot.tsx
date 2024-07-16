@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { ChromeMessage } from "../types";
-import { getCurrentTabUId } from "../chrome/utils";
+import { ChromeMessage } from "../../types";
+import { getCurrentTabUId } from "../../chrome/utils";
 
 const Screenshot = ({ tcId }: { tcId: number | string }) => {
+  const ratioIcon = chrome.runtime.getURL("../image/aspect-ratio.svg");
+  const videoIcon = chrome.runtime.getURL("../image/personal-video.svg");
   const sendTestMessage = () => {
     const message: ChromeMessage = {
       message: "screenshotAll",
@@ -56,6 +58,7 @@ const Screenshot = ({ tcId }: { tcId: number | string }) => {
           onClick={onClickSecionScreenshot}
           disabled={!tcId}
         >
+          <img alt="logo" src={ratioIcon} style={{ paddingRight: "5px" }} />
           선택 영역 스크린샷
         </FullCaptureButton>
         <FullCaptureButton
@@ -63,6 +66,7 @@ const Screenshot = ({ tcId }: { tcId: number | string }) => {
           onClick={onClickFullScreenshot}
           disabled={!tcId}
         >
+          <img alt="logo" src={videoIcon} style={{ paddingRight: "5px" }} />
           전체 화면 스크린샷
         </FullCaptureButton>
       </ButtonBox>
@@ -72,6 +76,7 @@ const Screenshot = ({ tcId }: { tcId: number | string }) => {
 
 const Root = styled.div`
   padding: 12px 12px;
+  border-top: 1px solid #e2e3ec;
 `;
 
 const TitleTypograph = styled.div`
@@ -93,18 +98,21 @@ const ButtonBox = styled.div`
 `;
 
 const FullCaptureButton = styled.button`
-  background-color: #5e6296;
+  background-color: white;
   font-size: 14px;
   font-weight: bold;
-  color: #fff;
+  color: #5e6296;
   padding: 12px;
   border-radius: 6px;
-  border: none;
+  border: solid 1px #ecedfa;
   width: 100%;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+
   &:disabled {
     cursor: initial;
-    background-color: #7a7a86;
+    background-color: #e2e3ec;
   }
 `;
 
